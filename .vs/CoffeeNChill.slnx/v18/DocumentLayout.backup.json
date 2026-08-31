@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|c:\\users\\elroi_svxj6s\\source\\repos\\coffeenchill\\coffeenchill\\coffenchill.functions.csproj||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|solutionrelative:coffeenchill\\coffenchill.functions.csproj||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|c:\\users\\elroi_svxj6s\\source\\repos\\coffeenchill\\coffeenchill\\coffeenchill.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|solutionrelative:coffeenchill\\coffeenchill.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|c:\\users\\elroi_svxj6s\\source\\repos\\coffeenchill\\coffeenchill\\dockerfile||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|solutionrelative:coffeenchill\\dockerfile||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|c:\\users\\elroi_svxj6s\\source\\repos\\coffeenchill\\coffeenchill\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|solutionrelative:coffeenchill\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|c:\\users\\elroi_svxj6s\\source\\repos\\coffeenchill\\coffeenchill\\function1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E27E472-35A6-4749-AD7D-95A41FD13CE3}|CoffeeNChill\\CoffeeNChill.csproj|solutionrelative:coffeenchill\\function1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CoffeNChill.Functions.csproj",
+              "DocumentMoniker": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\CoffeNChill.Functions.csproj",
+              "RelativeDocumentMoniker": "CoffeeNChill\\CoffeNChill.Functions.csproj",
+              "ToolTip": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\CoffeNChill.Functions.csproj",
+              "RelativeToolTip": "CoffeeNChill\\CoffeNChill.Functions.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-08-31T11:03:08.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\Dockerfile",
+              "RelativeDocumentMoniker": "CoffeeNChill\\Dockerfile",
+              "ToolTip": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\Dockerfile",
+              "RelativeToolTip": "CoffeeNChill\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-08-31T10:59:19.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CoffeeNChill",
+              "DocumentMoniker": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\CoffeeNChill.csproj",
+              "RelativeDocumentMoniker": "CoffeeNChill\\CoffeeNChill.csproj",
+              "ToolTip": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\CoffeeNChill.csproj",
+              "RelativeToolTip": "CoffeeNChill\\CoffeeNChill.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-08-31T10:48:09.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\.gitignore",
+              "RelativeDocumentMoniker": "CoffeeNChill\\.gitignore",
+              "ToolTip": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\.gitignore",
+              "RelativeToolTip": "CoffeeNChill\\.gitignore",
+              "ViewState": "AgIAAA4AAAAAAAAAAADwvxkAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-08-31T10:50:24.262Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Function1.cs",
+              "DocumentMoniker": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\Function1.cs",
+              "RelativeDocumentMoniker": "CoffeeNChill\\Function1.cs",
+              "ToolTip": "C:\\Users\\elroi_svxj6s\\source\\repos\\CoffeeNChill\\CoffeeNChill\\Function1.cs",
+              "RelativeToolTip": "CoffeeNChill\\Function1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-31T10:38:29.868Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
