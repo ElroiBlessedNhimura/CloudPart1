@@ -1,0 +1,268 @@
+﻿CoffeeNChill Canteen Management System
+Part 1 — Azure Functions, Azure Table Storage, Postman & Docker
+
+CoffeeNChill is a canteen management system developed using C# Azure Functions and Azure Storage. Part 1 focuses on creating a REST API for managing menu items, storing menu data in Azure Table Storage, handling staff documents using Azure Files, containerising the application with Docker, and testing the API using Postman.
+
+Project Team
+Team Member	Responsibilities
+Elroi	Repository setup, Menu Create/Read, Postman Create/Read tests, documentation coordination
+Neo	Menu Update/Delete/Filter, validation, menu Postman tests
+Hloni	Azure Files staff-document upload/list/download
+Junior	Docker, Docker Hub, final Postman collection and README assembly
+Elroi's Contributions
+
+My work for Part 1 focuses on the initial project setup and the Menu Create and Read functionality.
+
+Completed work
+Created the CoffeeNChill Azure Functions project.
+Set up the project folder structure.
+Configured local Azure Storage development using Azurite.
+Added local.settings.json.
+Added .gitignore.
+Created the docs folder.
+Created the MenuItem model.
+Created the Azure Table Storage entity.
+Created the Menu Table Storage service.
+Implemented the Create Menu Item endpoint.
+Implemented the Get All Menu Items endpoint.
+Created Postman requests for Create and Read.
+Added Postman tests for Create and Read.
+Prepared documentation for the project.
+Installed and configured Azure Functions Core Tools locally.
+Verified the correct CoffeeNChill project directory for running the Functions host.
+Technologies Used
+C#
+.NET
+Azure Functions
+Azure Functions Core Tools
+Azure Table Storage
+Azurite
+Docker
+Docker Hub
+Postman
+Git
+GitHub
+Visual Studio 2022
+PowerShell
+
+Azure Functions Configuration
+
+The project uses the Azure Functions isolated worker model.
+
+The local Functions runtime uses:
+
+FUNCTIONS_WORKER_RUNTIME=dotnet-isolated
+
+Local Azure Storage is configured using Azurite.
+
+The local storage setting uses:
+
+AzureWebJobsStorage=UseDevelopmentStorage=true
+
+The local settings file is excluded from source control because it contains local development configuration.
+
+Azurite
+
+Azurite is used as the local emulator for Azure Storage during development.
+
+The Azurite Docker container can be started with:
+
+docker run -d --name coffeenchill-azurite `
+  -p 10000:10000 `
+  -p 10001:10001 `
+  -p 10002:10002 `
+  mcr.microsoft.com/azure-storage/azurite
+
+To check whether the container is running:
+
+docker ps
+
+If the container already exists but is stopped:
+
+docker start coffeenchill-azurite
+Azure Table Storage — Menu Items
+
+Menu items are stored using Azure Table Storage.
+
+The table used by the application is:
+
+MenuItems
+
+Each menu item uses:
+
+PartitionKey = Category
+RowKey = ID
+
+The menu item contains:
+
+Property	Description
+Category	Menu category
+ID	Unique menu item identifier
+Name	Name of the menu item
+Description	Description of the item
+Price	Price of the item
+IsAvailable	Whether the item is currently available
+
+The Azure Table entity implements ITableEntity so that PartitionKey and RowKey can be used directly by Azure Table Storage.
+
+Menu Create Endpoint
+POST /api/menu
+
+The Create Menu Item endpoint creates a new menu item in Azure Table Storage.
+
+Request
+POST http://localhost:7071/api/menu
+Example JSON
+{
+  "category": "Hot Drinks",
+  "id": "COF-100",
+  "name": "Cappuccino",
+  "description": "Espresso with steamed milk and foam",
+  "price": 38.50,
+  "isAvailable": true
+}
+Expected response
+
+The endpoint returns:
+
+201 Created
+
+Example:
+
+{
+  "message": "Menu item created successfully.",
+  "item": {
+    "category": "Hot Drinks",
+    "id": "COF-100",
+    "name": "Cappuccino",
+    "description": "Espresso with steamed milk and foam",
+    "price": 38.5,
+    "isAvailable": true
+  }
+}
+Menu Read Endpoint
+GET /api/menu
+
+The Get All Menu Items endpoint retrieves all menu items stored in the MenuItems Azure Table.
+
+Request
+GET http://localhost:7071/api/menu
+Expected response
+
+The endpoint returns:
+
+200 OK
+
+Example:
+
+[
+  {
+    "category": "Hot Drinks",
+    "id": "COF-100",
+    "name": "Cappuccino",
+    "description": "Espresso with steamed milk and foam",
+    "price": 38.5,
+    "isAvailable": true
+  }
+]
+Running the Azure Functions Locally
+
+Azure Functions Core Tools v4 is installed on the development machine.
+
+The installed version can be checked with:
+
+func --version
+
+Current installed version:
+
+4.14.0
+
+The Functions Core Tools executable is located at:
+
+C:\Program Files\Microsoft\Azure Functions Core Tools\func.exe
+
+The CoffeeNChill Functions project is located at:
+
+C:\Users\elroi_svxj6s\source\repos\CoffeeNChill\CoffeeNChill
+
+To run the application:
+
+cd "C:\Users\elroi_svxj6s\source\repos\CoffeeNChill\CoffeeNChill"
+func start
+
+The Functions host should expose:
+
+POST http://localhost:7071/api/menu
+GET  http://localhost:7071/api/menu
+Postman Testing
+
+Postman is used to test the CoffeeNChill REST API.
+
+The local base URL is:
+
+http://localhost:7071
+
+A Postman environment can use:
+
+baseUrl = http://localhost:7071
+
+This allows requests to use:
+
+{{baseUrl}}
+
+instead of repeatedly entering the full URL.
+
+Create Menu Item Test
+Request
+POST {{baseUrl}}/api/menu
+Tests
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+pm.test("Response contains success message", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData.message).to.eql("Menu item created successfully.");
+});
+
+pm.test("Created item has correct ID", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData.item.id).to.eql("COF-100");
+});
+
+pm.test("Created item has correct name", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData.item.name).to.eql("Cappuccino");
+});
+Get All Menu Items Test
+Request
+GET {{baseUrl}}/api/menu
+Tests
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response is an array", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData).to.be.an("array");
+});
+
+pm.test("Menu contains items", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData.length).to.be.above(0);
+});
+
+pm.test("Cappuccino exists in menu", function () {
+    const jsonData = pm.response.json();
+    const item = jsonData.find(x => x.id === "COF-100");
+    pm.expect(item).to.not.be.undefined;
+});
+Git and GitHub
+
+Git is used for version control.
+
+The CoffeeNChill repository contains the project source code, documentation and supporting files.
+
+The project uses branches so that each team member can work on their assigned functionality independently.
+
+Team members should merge their work into the main branch using Pull Requests rather than directly pushing changes to main.
