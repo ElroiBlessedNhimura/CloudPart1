@@ -1,4 +1,4 @@
-using Azure.Monitor.OpenTelemetry.Exporter;
+﻿using Azure.Monitor.OpenTelemetry.Exporter;
 using CoffeeNChill.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
@@ -11,6 +11,7 @@ var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
 builder.Services.AddSingleton<MenuTableService>();
+builder.Services.AddSingleton<StaffDocumentService>();
 
 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
 {

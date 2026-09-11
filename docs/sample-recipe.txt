@@ -1,0 +1,10 @@
+CoffeeNChill Sample Recipe
+
+Drink: Vanilla Latte
+Ingredients:
+Espresso
+Steamed milk
+Vanilla syrup
+
+Preparation:
+Prepare the espresso, add vanilla syrup, pour in steamed milk, and serve.
