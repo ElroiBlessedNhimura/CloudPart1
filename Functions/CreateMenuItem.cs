@@ -65,6 +65,36 @@ namespace CoffeeNChill.Functions
                 return badRequestResponse;
             }
 
+                        // VALIDATION: Category, Id, and Name are required
+            if (string.IsNullOrWhiteSpace(menuItem.Category))
+            {
+                var badCategory = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badCategory.WriteStringAsync("Category is required.");
+                return badCategory;
+            }
+
+            if (string.IsNullOrWhiteSpace(menuItem.Id))
+            {
+                var badId = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badId.WriteStringAsync("Id is required.");
+                return badId;
+            }
+
+            if (string.IsNullOrWhiteSpace(menuItem.Name))
+            {
+                var badName = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badName.WriteStringAsync("Name is required.");
+                return badName;
+            }
+
+            // VALIDATION: Price must be greater than 0
+            if (menuItem.Price <= 0)
+            {
+                var badPrice = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badPrice.WriteStringAsync("Price must be greater than 0.");
+                return badPrice;
+            }
+
             // Save the menu item to Azure Table Storage
             var entity = await _menuTableService.AddMenuItemAsync(menuItem);
 
