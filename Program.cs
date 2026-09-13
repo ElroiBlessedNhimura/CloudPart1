@@ -7,6 +7,7 @@ var host = new HostBuilder()
     .ConfigureServices(services =>
     {
         services.AddSingleton<MenuTableService>();
+        services.AddSingleton<StaffDocumentService>();
     })
     .Build();
 
