@@ -1,0 +1,166 @@
+{
+  "info": {
+    "name": "Staff Documents",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:7071"
+    },
+    {
+      "key": "uploadedFileName",
+      "value": "sample-recipe.txt"
+    }
+  ],
+  "item": [
+    {
+      "name": "Upload Staff Document",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "docs/sample-recipe.txt"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/documents/upload",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "documents", "upload"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Upload returns 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test('Upload returns document metadata', function () {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body.fileName).to.eql(pm.collectionVariables.get('uploadedFileName'));",
+              "    pm.expect(body.size).to.be.above(0);",
+              "    pm.expect(body.contentType).to.eql('text/plain');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Staff Documents",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/documents",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "documents"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('List returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Uploaded document appears in the list', function () {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body.some(x => x.fileName === pm.collectionVariables.get('uploadedFileName'))).to.be.true;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Download Staff Document",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/documents/download/{{uploadedFileName}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "documents", "download", "{{uploadedFileName}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Download returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Download has the expected content type', function () {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('text/plain');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reject Unsupported File",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "docs/sample-invalid.json"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/documents/upload",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "documents", "upload"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Unsupported file returns 400', function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Download Missing Document",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/documents/download/missing-file.pdf",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "documents", "download", "missing-file.pdf"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Missing document returns 404', function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
