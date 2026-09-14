@@ -13,6 +13,12 @@ namespace CoffeeNChill.Functions
         private readonly MenuTableService _menuTableService;
         private readonly ILogger<CreateMenuItem> _logger;
 
+        // ---------------------------------------------------------------------
+        // Code Attribution
+        // Constructor dependency injection pattern adapted from:
+        // Microsoft Learn – Dependency injection in .NET Azure Functions
+        // https://learn.microsoft.com/en-us/azure/azure-functions/functions-dotnet-dependency-injection
+        // ---------------------------------------------------------------------
         public CreateMenuItem(
             MenuTableService menuTableService,
             ILogger<CreateMenuItem> logger)
@@ -21,6 +27,12 @@ namespace CoffeeNChill.Functions
             _logger = logger;
         }
 
+        // ---------------------------------------------------------------------
+        // Code Attribution
+        // Azure Function HTTP trigger with custom route adapted from:
+        // Microsoft Learn – Azure Functions .NET isolated worker guide
+        // https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide
+        // ---------------------------------------------------------------------
         [Function("CreateMenuItem")]
         public async Task<HttpResponseData> Run(
             [HttpTrigger(
@@ -33,6 +45,13 @@ namespace CoffeeNChill.Functions
             // Reads JSON from the request body
             MenuItem? menuItem;
 
+            // -----------------------------------------------------------------
+            // Code Attribution
+            // JSON deserialization from HttpRequestData body adapted from:
+            // https://learn.microsoft.com/en-us/dotnet/api/system.text.json.jsonserializer.deserializeasync
+            // and Stack Overflow:
+            // https://stackoverflow.com/questions/71430256/how-to-read-json-body-from-httprequestdata
+            // -----------------------------------------------------------------
             try
             {
                 menuItem = await JsonSerializer.DeserializeAsync<MenuItem>(
@@ -54,6 +73,12 @@ namespace CoffeeNChill.Functions
             }
 
             // Checks if the request body is empty
+            // -----------------------------------------------------------------
+            // Code Attribution
+            // Null-check and BadRequest response pattern adapted from:
+            // Microsoft Learn – Create and use HTTP responses in Azure Functions
+            // https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference
+            // -----------------------------------------------------------------
             if (menuItem == null)
             {
                 var badRequestResponse = req.CreateResponse(
@@ -65,7 +90,13 @@ namespace CoffeeNChill.Functions
                 return badRequestResponse;
             }
 
-                        // VALIDATION: Category, Id, and Name are required
+            // VALIDATION: Category, Id, and Name are required
+            // -----------------------------------------------------------------
+            // Code Attribution
+            // Input validation pattern (IsNullOrWhiteSpace checks) adapted from:
+            // Microsoft Learn – String.IsNullOrWhiteSpace Method
+            // https://learn.microsoft.com/en-us/dotnet/api/system.string.isnullorwhitespace
+            // -----------------------------------------------------------------
             if (string.IsNullOrWhiteSpace(menuItem.Category))
             {
                 var badCategory = req.CreateResponse(HttpStatusCode.BadRequest);
@@ -88,6 +119,12 @@ namespace CoffeeNChill.Functions
             }
 
             // VALIDATION: Price must be greater than 0
+            // -----------------------------------------------------------------
+            // Code Attribution
+            // Numeric range validation pattern adapted from:
+            // Microsoft Learn – C# comparison operators
+            // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/comparison-operators
+            // -----------------------------------------------------------------
             if (menuItem.Price <= 0)
             {
                 var badPrice = req.CreateResponse(HttpStatusCode.BadRequest);
@@ -95,10 +132,21 @@ namespace CoffeeNChill.Functions
                 return badPrice;
             }
 
-            // Save the menu item to Azure Table Storage
+            // -----------------------------------------------------------------
+            // Code Attribution
+            // Saving entity to Azure Table Storage adapted from:
+            // Microsoft Learn – Azure Tables client library for .NET
+            // https://learn.microsoft.com/en-us/dotnet/api/overview/azure/data.tables-readme
+            // -----------------------------------------------------------------
             var entity = await _menuTableService.AddMenuItemAsync(menuItem);
 
             // Return 201 Created
+            // -----------------------------------------------------------------
+            // Code Attribution
+            // HTTP 201 Created response and JSON payload pattern adapted from:
+            // Microsoft Learn – Create and use HTTP responses in Azure Functions
+            // https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference
+            // -----------------------------------------------------------------
             var response = req.CreateResponse(
                 HttpStatusCode.Created);
 
