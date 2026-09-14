@@ -1,268 +1,1258 @@
-﻿CoffeeNChill Canteen Management System
-Part 1 — Azure Functions, Azure Table Storage, Postman & Docker
+﻿# ☕ CoffeeNChill — Azure Functions, Tables, Files & Docker Hub
 
-CoffeeNChill is a canteen management system developed using C# Azure Functions and Azure Storage. Part 1 focuses on creating a REST API for managing menu items, storing menu data in Azure Table Storage, handling staff documents using Azure Files, containerising the application with Docker, and testing the API using Postman.
+## Portfolio of Evidence — Part 1
 
-Project Team
-Team Member	Responsibilities
-Elroi	Repository setup, Menu Create/Read, Postman Create/Read tests, documentation coordination
-Neo	Menu Update/Delete/Filter, validation, menu Postman tests
-Hloni	Azure Files staff-document upload/list/download
-Junior	Docker, Docker Hub, final Postman collection and README assembly
-Elroi's Contributions
+CoffeeNChill is a cloud-based coffee shop solution developed using **Azure Functions, Azure Storage, Docker, Azurite, Postman, and Docker Hub**.
 
-My work for Part 1 focuses on the initial project setup and the Menu Create and Read functionality.
+The purpose of the system is to replace the coffee shop's traditional paper-based processes with a simple serverless application for managing:
 
-Completed work
-Created the CoffeeNChill Azure Functions project.
-Set up the project folder structure.
-Configured local Azure Storage development using Azurite.
-Added local.settings.json.
-Added .gitignore.
-Created the docs folder.
-Created the MenuItem model.
-Created the Azure Table Storage entity.
-Created the Menu Table Storage service.
-Implemented the Create Menu Item endpoint.
-Implemented the Get All Menu Items endpoint.
-Created Postman requests for Create and Read.
-Added Postman tests for Create and Read.
-Prepared documentation for the project.
-Installed and configured Azure Functions Core Tools locally.
-Verified the correct CoffeeNChill project directory for running the Functions host.
-Technologies Used
-C#
-.NET
-Azure Functions
-Azure Functions Core Tools
-Azure Table Storage
-Azurite
-Docker
-Docker Hub
-Postman
-Git
-GitHub
-Visual Studio 2022
-PowerShell
+* ☕ Coffee menu items
+* 📋 Menu item availability and pricing
+* 📁 Staff documents
+* 🧪 API testing
+* 🐳 Containerised Azure Functions
 
-Azure Functions Configuration
+The project was developed as a **group project consisting of four members**, with each of us responsible for specific components of the solution.
 
-The project uses the Azure Functions isolated worker model.
+---
 
-The local Functions runtime uses:
+# 1. Project Objectives
 
-FUNCTIONS_WORKER_RUNTIME=dotnet-isolated
+The CoffeeNChill system was designed to demonstrate the following cloud technologies and development practices:
 
-Local Azure Storage is configured using Azurite.
+* Azure Functions using the **.NET Isolated Worker model**
+* Azure Table Storage
+* Azure File Share
+* Azure Functions HTTP triggers
+* Azurite for local Azure Storage emulation
+* Docker containerisation
+* Docker Hub image publishing
+* Postman API testing
+* RESTful API design
+* Git and GitHub version control
+* Team-based development using branches and commits
 
-The local storage setting uses:
+---
 
-AzureWebJobsStorage=UseDevelopmentStorage=true
+# 2. Technologies Used
 
-The local settings file is excluded from source control because it contains local development configuration.
+| Technology          | Purpose                           |
+| ------------------- | --------------------------------- |
+| C#                  | Application programming language  |
+| .NET 8              | Application framework             |
+| Azure Functions v4  | Serverless HTTP API               |
+| Azure Table Storage | Store menu items                  |
+| Azure File Share    | Store staff documents             |
+| Azurite             | Local Azure Storage emulator      |
+| Docker              | Containerisation                  |
+| Docker Hub          | Store and distribute Docker image |
+| Postman             | API testing                       |
+| Git                 | Version control                   |
+| GitHub              | Source-code repository            |
+| Visual Studio       | Development environment           |
 
-Azurite
+---
 
-Azurite is used as the local emulator for Azure Storage during development.
+# 3. System Architecture
 
-The Azurite Docker container can be started with:
+The CoffeeNChill solution consists of the following main components:
 
-docker run -d --name coffeenchill-azurite `
+```text
+                         ┌─────────────────────┐
+                         │      Postman        │
+                         │    API Testing      │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │   Azure Functions   │
+                         │      HTTP API       │
+                         └──────────┬──────────┘
+                                    │
+                  ┌─────────────────┼─────────────────┐
+                  │                 │                 │
+                  ▼                 ▼                 ▼
+          ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+          │ Azure Table  │  │ Azure Files  │  │   Other API  │
+          │  MenuItems   │  │  staff-docs  │  │   Services   │
+          └──────────────┘  └──────────────┘  └──────────────┘
+                  │                 │
+                  └─────────────────┼─────────────────┘
+                                    ▼
+                              ┌───────────┐
+                              │  Azurite  │
+                              │   Docker  │
+                              └───────────┘
+```
+
+During local development, **Azurite** emulates Azure Storage services.
+
+---
+
+# 4. Project Structure
+
+The project follows the following structure:
+
+```text
+CoffeeNChill/
+│
+├── Functions/
+│   ├── MenuFunctions.cs
+│   ├── CreateMenuItem.cs
+│   ├── GetAllMenuItems.cs
+│   ├── GetMenuItemsByCategory.cs
+│   ├── UpdateMenuItem.cs
+│   ├── DeleteMenuItem.cs
+│   ├── UploadStaffDocument.cs
+│   ├── ListStaffDocuments.cs
+│   └── DownloadStaffDocument.cs
+│
+├── Models/
+│   └── MenuItem.cs
+│
+├── Services/
+│   ├── MenuTableService.cs
+│   └── FileShareService.cs
+│
+├── docs/
+│   ├── Postman collection
+│   ├── Postman screenshots
+│   └── additional documentation
+│
+├── Program.cs
+├── host.json
+├── local.settings.json
+├── Dockerfile
+├── CoffeeNChill.csproj
+└── README.md
+```
+
+---
+
+# 5. Team Members and Contributions
+
+This project was completed by four group members.
+
+## Elroi Blessed Nhimura — Repository, Menu Create & Read
+
+Elroi was responsible for:
+
+* Initial repository/project setup
+* CoffeeNChill Azure Functions project configuration
+* `MenuItem` model
+* Azure Table Storage menu implementation
+* Create Menu Item functionality
+* Get All Menu Items functionality
+* Postman testing for Create and Read
+* Git branch management
+* Git commits and GitHub integration
+* Coordinating the final README/documentation
+* Recording the video demonstration for assigned functionality
+
+### Main functionality
+
+```text
+POST /api/menu
+GET  /api/menu
+```
+
+---
+
+## Neo Mokoena — Menu Filtering, Updating & Deleting
+
+Neo was responsible for the remaining menu management functionality:
+
+* Filtering menu items by category
+* Updating menu items
+* Deleting menu items
+* Menu-related validation
+* Postman testing for the assigned menu operations
+
+### Main functionality
+
+```text
+GET    /api/menu/category/{category}
+PUT    /api/menu/{category}/{id}
+DELETE /api/menu/{category}/{id}
+```
+
+---
+
+## Lehlohonolo Moeletsi — Azure File Share
+
+Hloni was responsible for the staff document functionality:
+
+* Azure File Share configuration
+* `staff-docs` file share
+* Uploading staff documents
+* Listing staff documents
+* Downloading staff documents
+* File validation
+* Postman testing for document operations
+
+### Main functionality
+
+```text
+POST /api/documents/upload
+GET  /api/documents
+GET  /api/documents/download/{fileName}
+```
+
+The staff document area is intended for files such as:
+
+* Barista recipe sheets
+* Equipment cleaning manuals
+* Health and safety policies
+* Other staff documentation
+
+---
+
+## Junior Ramabulana — Docker, Docker Hub & Final Testing
+
+Junior was responsible for:
+
+* Dockerfile configuration
+* Azure Functions containerisation
+* Building the Docker image
+* Running the Functions container
+* Docker testing
+* Publishing the image to Docker Hub
+* Assisting with final Postman collection
+* Final integration testing
+* Video demonstration assembly
+
+Docker image:
+
+```text
+coffeenchill-functions:v1.0
+```
+
+Docker Hub repository:
+
+```text
+[INSERT DOCKER HUB LINK HERE]
+```
+
+---
+
+# 6. Azure Table Storage — MenuItems
+
+The menu is stored using **Azure Table Storage**.
+
+The table is called:
+
+```text
+MenuItems
+```
+
+Each menu item contains:
+
+| Property     | Description                             |
+| ------------ | --------------------------------------- |
+| PartitionKey | Menu category                           |
+| RowKey       | Unique menu item ID/SKU                 |
+| Name         | Name of the coffee/menu item            |
+| Description  | Description of the item                 |
+| Price        | Price of the item                       |
+| IsAvailable  | Whether the item is currently available |
+| Timestamp    | Azure Table timestamp                   |
+| ETag         | Entity version/concurrency value        |
+
+### Example entity
+
+```json
+{
+    "partitionKey": "Hot Drinks",
+    "rowKey": "COF-001",
+    "name": "Espresso",
+    "description": "Strong freshly brewed espresso",
+    "price": 25.00,
+    "isAvailable": true
+}
+```
+
+---
+
+# 7. Menu API Endpoints
+
+The CoffeeNChill API provides the following menu operations.
+
+| Method | Endpoint                        | Purpose                         |
+| ------ | ------------------------------- | ------------------------------- |
+| POST   | `/api/menu`                     | Create a menu item              |
+| GET    | `/api/menu`                     | Retrieve all menu items         |
+| GET    | `/api/menu/category/{category}` | Retrieve menu items by category |
+| PUT    | `/api/menu/{category}/{id}`     | Update a menu item              |
+| DELETE | `/api/menu/{category}/{id}`     | Delete a menu item              |
+
+---
+
+# 8. Create Menu Item
+
+### Request
+
+```http
+POST http://localhost:7071/api/menu
+```
+
+### Body
+
+```json
+{
+    "partitionKey": "Hot Drinks",
+    "rowKey": "COF-001",
+    "name": "Espresso",
+    "description": "Strong freshly brewed espresso",
+    "price": 25.00,
+    "isAvailable": true
+}
+```
+
+### Successful response
+
+```text
+201 Created
+```
+
+The created menu item is stored in the `MenuItems` Azure Table.
+
+---
+
+# 9. Get All Menu Items
+
+### Request
+
+```http
+GET http://localhost:7071/api/menu
+```
+
+### Successful response
+
+```text
+200 OK
+```
+
+Example:
+
+```json
+[
+    {
+        "partitionKey": "Hot Drinks",
+        "rowKey": "COF-001",
+        "name": "Espresso",
+        "description": "Strong freshly brewed espresso",
+        "price": 25.00,
+        "isAvailable": true
+    },
+    {
+        "partitionKey": "Cold Drinks",
+        "rowKey": "COF-002",
+        "name": "Iced Coffee",
+        "description": "Cold coffee served with ice",
+        "price": 30.00,
+        "isAvailable": true
+    }
+]
+```
+
+---
+
+# 10. Get Menu Items by Category
+
+### Request
+
+```http
+GET http://localhost:7071/api/menu/category/Hot%20Drinks
+```
+
+This endpoint retrieves menu items belonging to a specific category.
+
+Example category:
+
+```text
+Hot Drinks
+```
+
+Expected response:
+
+```text
+200 OK
+```
+
+---
+
+# 11. Update Menu Item
+
+### Request
+
+```http
+PUT http://localhost:7071/api/menu/Hot%20Drinks/COF-001
+```
+
+The update functionality allows menu information such as pricing and availability to be changed.
+
+Example:
+
+```json
+{
+    "price": 28.00,
+    "isAvailable": false
+}
+```
+
+Expected response:
+
+```text
+200 OK
+```
+
+---
+
+# 12. Delete Menu Item
+
+### Request
+
+```http
+DELETE http://localhost:7071/api/menu/Hot%20Drinks/COF-001
+```
+
+This removes the selected menu item from Azure Table Storage.
+
+Expected response:
+
+```text
+204 No Content
+```
+
+---
+
+# 13. Azure File Share — Staff Documents
+
+Staff documents are stored using an Azure File Share.
+
+The file share is:
+
+```text
+staff-docs
+```
+
+Example documents include:
+
+```text
+staff-docs/
+│
+├── barista-recipes.pdf
+├── cleaning-manual.pdf
+├── health-and-safety.pdf
+└── equipment-guide.pdf
+```
+
+---
+
+# 14. Upload Staff Document
+
+### Request
+
+```http
+POST http://localhost:7071/api/documents/upload
+```
+
+The request uses:
+
+```text
+multipart/form-data
+```
+
+The uploaded file is stored inside the `staff-docs` Azure File Share.
+
+---
+
+# 15. List Staff Documents
+
+### Request
+
+```http
+GET http://localhost:7071/api/documents
+```
+
+The endpoint returns the files currently stored in the staff document share.
+
+Example response:
+
+```json
+[
+    {
+        "name": "barista-recipes.pdf",
+        "size": 15234
+    },
+    {
+        "name": "cleaning-manual.pdf",
+        "size": 28342
+    }
+]
+```
+
+---
+
+# 16. Download Staff Document
+
+### Request
+
+```http
+GET http://localhost:7071/api/documents/download/barista-recipes.pdf
+```
+
+The requested file is returned to the client.
+
+---
+
+# 17. Azurite Local Storage
+
+Azurite is used to emulate Azure Storage during local development.
+
+The official Azurite Docker image is:
+
+```text
+mcr.microsoft.com/azure-storage/azurite
+```
+
+The project uses the following storage ports:
+
+| Service       |  Port |
+| ------------- | ----: |
+| Blob Storage  | 10000 |
+| Queue Storage | 10001 |
+| Table Storage | 10002 |
+
+---
+
+# 18. Running Azurite
+
+Start the Azurite container using:
+
+```powershell
+docker run -d `
+  --name coffeenchill-azurite `
   -p 10000:10000 `
   -p 10001:10001 `
   -p 10002:10002 `
   mcr.microsoft.com/azure-storage/azurite
+```
 
-To check whether the container is running:
+Check the running containers:
 
+```powershell
 docker ps
+```
 
-If the container already exists but is stopped:
+Expected result:
 
+```text
+CONTAINER ID   IMAGE                                     STATUS
+xxxxxxxx       mcr.microsoft.com/azure-storage/azurite   Up
+```
+
+The container name used by the project is:
+
+```text
+coffeenchill-azurite
+```
+
+---
+
+# 19. Verify Azurite
+
+To view the Azurite logs:
+
+```powershell
+docker logs coffeenchill-azurite
+```
+
+To stop Azurite:
+
+```powershell
+docker stop coffeenchill-azurite
+```
+
+To start the existing container again:
+
+```powershell
 docker start coffeenchill-azurite
-Azure Table Storage — Menu Items
+```
 
-Menu items are stored using Azure Table Storage.
+To remove the container:
 
-The table used by the application is:
+```powershell
+docker rm -f coffeenchill-azurite
+```
 
-MenuItems
+---
 
-Each menu item uses:
+# 20. Local Settings
 
-PartitionKey = Category
-RowKey = ID
+For local development, Azure Functions uses the following storage configuration:
 
-The menu item contains:
-
-Property	Description
-Category	Menu category
-ID	Unique menu item identifier
-Name	Name of the menu item
-Description	Description of the item
-Price	Price of the item
-IsAvailable	Whether the item is currently available
-
-The Azure Table entity implements ITableEntity so that PartitionKey and RowKey can be used directly by Azure Table Storage.
-
-Menu Create Endpoint
-POST /api/menu
-
-The Create Menu Item endpoint creates a new menu item in Azure Table Storage.
-
-Request
-POST http://localhost:7071/api/menu
-Example JSON
+```json
 {
-  "category": "Hot Drinks",
-  "id": "COF-100",
-  "name": "Cappuccino",
-  "description": "Espresso with steamed milk and foam",
-  "price": 38.50,
-  "isAvailable": true
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+    }
 }
-Expected response
+```
 
-The endpoint returns:
+This configuration allows the application to use Azurite instead of requiring an Azure Storage account during local development.
 
-201 Created
+> `local.settings.json` should not contain real production secrets and should not be committed if it contains sensitive credentials.
 
-Example:
+---
 
-{
-  "message": "Menu item created successfully.",
-  "item": {
-    "category": "Hot Drinks",
-    "id": "COF-100",
-    "name": "Cappuccino",
-    "description": "Espresso with steamed milk and foam",
-    "price": 38.5,
-    "isAvailable": true
-  }
-}
-Menu Read Endpoint
-GET /api/menu
+# 21. Running the Azure Functions Project
 
-The Get All Menu Items endpoint retrieves all menu items stored in the MenuItems Azure Table.
+Open PowerShell in the CoffeeNChill project directory:
 
-Request
-GET http://localhost:7071/api/menu
-Expected response
-
-The endpoint returns:
-
-200 OK
-
-Example:
-
-[
-  {
-    "category": "Hot Drinks",
-    "id": "COF-100",
-    "name": "Cappuccino",
-    "description": "Espresso with steamed milk and foam",
-    "price": 38.5,
-    "isAvailable": true
-  }
-]
-Running the Azure Functions Locally
-
-Azure Functions Core Tools v4 is installed on the development machine.
-
-The installed version can be checked with:
-
-func --version
-
-Current installed version:
-
-4.14.0
-
-The Functions Core Tools executable is located at:
-
-C:\Program Files\Microsoft\Azure Functions Core Tools\func.exe
-
-The CoffeeNChill Functions project is located at:
-
-C:\Users\elroi_svxj6s\source\repos\CoffeeNChill\CoffeeNChill
-
-To run the application:
-
+```powershell 
 cd "C:\Users\elroi_svxj6s\source\repos\CoffeeNChill\CoffeeNChill"
+```
+
+Start the Azure Functions application:
+
+```powershell
 func start
+```
 
-The Functions host should expose:
+The Functions host should start on:
 
-POST http://localhost:7071/api/menu
-GET  http://localhost:7071/api/menu
-Postman Testing
-
-Postman is used to test the CoffeeNChill REST API.
-
-The local base URL is:
-
+```text
 http://localhost:7071
+```
 
-A Postman environment can use:
+The API can then be tested using Postman.
 
+---
+
+# 22. Postman Testing
+
+Postman was used to test all HTTP endpoints.
+
+The recommended environment variable is:
+
+```text
 baseUrl = http://localhost:7071
+```
 
 This allows requests to use:
 
-{{baseUrl}}
+```text
+{{baseUrl}}/api/menu
+```
 
-instead of repeatedly entering the full URL.
+instead of repeatedly typing the complete URL.
 
-Create Menu Item Test
-Request
-POST {{baseUrl}}/api/menu
-Tests
+---
+
+# 23. Postman Test Cases
+
+## Create Menu Item
+
+```javascript
 pm.test("Status code is 201", function () {
     pm.response.to.have.status(201);
 });
 
-pm.test("Response contains success message", function () {
+pm.test("Response contains menu item", function () {
     const jsonData = pm.response.json();
-    pm.expect(jsonData.message).to.eql("Menu item created successfully.");
-});
 
-pm.test("Created item has correct ID", function () {
-    const jsonData = pm.response.json();
-    pm.expect(jsonData.item.id).to.eql("COF-100");
+    pm.expect(jsonData).to.have.property("name");
 });
+```
 
-pm.test("Created item has correct name", function () {
-    const jsonData = pm.response.json();
-    pm.expect(jsonData.item.name).to.eql("Cappuccino");
-});
-Get All Menu Items Test
-Request
-GET {{baseUrl}}/api/menu
-Tests
+---
+
+## Get All Menu Items
+
+```javascript
 pm.test("Status code is 200", function () {
     pm.response.to.have.status(200);
 });
 
 pm.test("Response is an array", function () {
     const jsonData = pm.response.json();
+
     pm.expect(jsonData).to.be.an("array");
 });
+```
 
-pm.test("Menu contains items", function () {
-    const jsonData = pm.response.json();
-    pm.expect(jsonData.length).to.be.above(0);
-});
+---
 
-pm.test("Cappuccino exists in menu", function () {
-    const jsonData = pm.response.json();
-    const item = jsonData.find(x => x.id === "COF-100");
-    pm.expect(item).to.not.be.undefined;
-});
-Git and GitHub
+## Additional Postman Tests
 
-Git is used for version control.
+The group also tested:
 
-The CoffeeNChill repository contains the project source code, documentation and supporting files.
+* Category filtering
+* Menu item updates
+* Menu item deletion
+* File uploads
+* File listing
+* File downloads
+* Invalid requests
+* Missing required data
+* File validation
+* HTTP status codes
 
-The project uses branches so that each team member can work on their assigned functionality independently.
+---
 
-Team members should merge their work into the main branch using Pull Requests rather than directly pushing changes to main.
+# 24. HTTP Status Codes
+
+The API uses standard HTTP response codes.
+
+| Status                      | Meaning                           |
+| --------------------------- | --------------------------------- |
+| `200 OK`                    | Request successful                |
+| `201 Created`               | Resource successfully created     |
+| `204 No Content`            | Resource successfully deleted     |
+| `400 Bad Request`           | Invalid request/data              |
+| `404 Not Found`             | Requested resource does not exist |
+| `500 Internal Server Error` | Unexpected server error           |
+
+---
+
+# 25. Validation
+
+The CoffeeNChill API performs validation to prevent invalid data from being stored.
+
+Examples include:
+
+### Menu validation
+
+* Partition key/category must be provided
+* Row key/ID must be provided
+* Menu item name must be provided
+* Price cannot be negative
+* Invalid menu data returns `400 Bad Request`
+
+### File validation
+
+* File must be provided
+* File name must be valid
+* Unsupported or invalid files are rejected where applicable
+* Requested files must exist before downloading
+
+---
+
+# 26. Docker Containerisation
+
+The Azure Functions application is containerised using Docker.
+
+The project contains a:
+
+```text
+Dockerfile
+```
+
+The Dockerfile is used to build an image containing the CoffeeNChill Azure Functions application.
+
+---
+
+# 27. Build the Docker Image
+
+From the project directory:
+
+```powershell
+docker build -t coffeenchill-functions:v1.0 .
+```
+
+Verify the image:
+
+```powershell
+docker images
+```
+
+The image should appear as:
+
+```text
+coffeenchill-functions
+```
+
+with the tag:
+
+```text
+v1.0
+```
+
+---
+
+# 28. Run the Functions Container
+
+The CoffeeNChill Functions image can be started using Docker.
+
+Example:
+
+```powershell
+docker run -d `
+  --name coffeenchill-functions `
+  -p 7071:80 `
+  coffeenchill-functions:v1.0
+```
+
+Check the container:
+
+```powershell
+docker ps
+```
+
+View the Functions container logs:
+
+```powershell
+docker logs coffeenchill-functions
+```
+
+---
+
+# 29. Docker Hub
+
+The final CoffeeNChill Functions image is published to Docker Hub.
+
+Docker image:
+
+```text
+coffeenchill-functions:v1.0
+```
+
+Docker Hub repository:
+
+[**\[INSERT YOUR DOCKER HUB URL HERE\]**](https://hub.docker.com/r/mashudujuniorst10453352/coffeenchill-functions)
+
+---
+
+# 30. Pulling the Docker Image
+
+A user can pull the published image using:
+
+```powershell
+docker pull mashudujuniorst10453352/coffeenchill-functions:v1.0
+```
+
+The image can then be run using:
+
+```powershell
+docker run -d `
+  --name coffeenchill-functions `
+  -p 7071:80 `
+  mashudujuniorst10453352/coffeenchill-functions:v1.0
+```
+
+---
+
+# 31. Git and GitHub
+
+Git was used for version control throughout development.
+
+The project was developed using separate branches so that each group member could work on their assigned functionality.
+
+The main repository is:
+
+**[INSERT GITHUB REPOSITORY LINK HERE]**
+
+Example:
+
+```text
+https://github.com/ElroiBlessedNhimura/CloudPart1.git
+```
+
+---
+
+# 32. Git Contribution Requirements
+
+Each group member was required to make meaningful commits documenting their contribution.
+
+Example commit progression:
+
+```text
+Create CoffeeNChill Azure Functions project
+Configure Azurite local storage settings
+Add MenuItem Azure Table entity
+Implement CreateMenuItem HTTP endpoint
+Implement GetAllMenuItems HTTP endpoint
+Add Postman tests for menu create and read
+Implement menu category filtering
+Implement menu update functionality
+Implement menu delete functionality
+Add Azure File Share document functionality
+Add Dockerfile
+Build and test Docker image
+Publish Docker image to Docker Hub
+Complete project documentation
+```
+
+The commit history provides evidence of individual contributions.
+
+---
+
+# 33. Recommended Git Workflow
+
+The group used the following general workflow:
+
+```text
+Create branch
+     │
+     ▼
+Develop assigned feature
+     │
+     ▼
+Test feature
+     │
+     ▼
+Commit changes
+     │
+     ▼
+Push branch
+     │
+     ▼
+Create Pull Request
+     │
+     ▼
+Review
+     │
+     ▼
+Merge into main/master
+```
+
+This helped prevent individual changes from interfering with other members' work.
+
+---
+
+# 34. Project Testing Process
+
+The complete application was tested in stages.
+
+### Step 1 — Start Docker
+
+```powershell
+docker ps
+```
+
+### Step 2 — Start Azurite
+
+```powershell
+docker start coffeenchill-azurite
+```
+
+### Step 3 — Start Azure Functions
+
+```powershell
+func start
+```
+
+### Step 4 — Open Postman
+
+Set:
+
+```text
+baseUrl = http://localhost:7071
+```
+
+### Step 5 — Test Menu APIs
+
+```text
+POST /api/menu
+GET /api/menu
+GET /api/menu/category/{category}
+PUT /api/menu/{category}/{id}
+DELETE /api/menu/{category}/{id}
+```
+
+### Step 6 — Test File APIs
+
+```text
+POST /api/documents/upload
+GET /api/documents
+GET /api/documents/download/{fileName}
+```
+
+### Step 7 — Test Docker
+
+Build and run the Functions container.
+
+### Step 8 — Verify Docker Hub
+
+Confirm the final image is available on Docker Hub.
+
+---
+
+# 35. Evidence
+
+The following evidence should be included in the `docs` folder where required:
+
+```text
+docs/
+│
+├── Postman/
+│   ├── CreateMenuItem.png
+│   ├── GetAllMenuItems.png
+│   ├── GetMenuItemsByCategory.png
+│   ├── UpdateMenuItem.png
+│   ├── DeleteMenuItem.png
+│   ├── UploadDocument.png
+│   ├── ListDocuments.png
+│   └── DownloadDocument.png
+│
+├── Docker/
+│   ├── docker-build.png
+│   ├── docker-run.png
+│   └── dockerhub.png
+│
+└── Postman-Collection.json
+```
+
+Screenshots should clearly show successful requests and responses where required.
+
+---
+
+# 36. Video Demonstration
+
+The demonstration video covers:
+
+1. Project overview
+2. Team member contributions
+3. Azure Functions
+4. Azurite
+5. Azure Table Storage
+6. Menu API
+7. Azure File Share
+8. Document API
+9. Postman testing
+10. Docker image creation
+11. Docker container execution
+12. Docker Hub
+13. Final working application
+
+### YouTube Video
+
+**[INSERT FINAL YOUTUBE VIDEO LINK HERE]**
+
+---
+
+# 37. Troubleshooting
+
+## Docker is not recognised
+
+If PowerShell reports:
+
+```text
+docker : The term 'docker' is not recognized
+```
+
+make sure Docker Desktop is installed and running.
+
+Then restart PowerShell and test:
+
+```powershell
+docker --version
+```
+
+---
+
+## Docker daemon is not running
+
+If you receive an error similar to:
+
+```text
+failed to connect to the docker API
+```
+
+start Docker Desktop and wait until Docker Engine is running.
+
+Then:
+
+```powershell
+docker ps
+```
+
+---
+
+## Azurite container already exists
+
+If Docker reports:
+
+```text
+Conflict. The container name is already in use
+```
+
+check:
+
+```powershell
+docker ps -a
+```
+
+If the existing container is the CoffeeNChill Azurite container:
+
+```powershell
+docker start coffeenchill-azurite
+```
+
+---
+
+## Azure Functions does not start
+
+Verify Azure Functions Core Tools:
+
+```powershell
+func --version
+```
+
+Then run:
+
+```powershell
+func start
+```
+
+---
+
+## Check running containers
+
+```powershell
+docker ps
+```
+
+---
+
+## Check all containers
+
+```powershell
+docker ps -a
+```
+
+---
+
+## View container logs
+
+Azurite:
+
+```powershell
+docker logs coffeenchill-azurite
+```
+
+Functions:
+
+```powershell
+docker logs coffeenchill-functions
+```
+
+---
+
+# 38. Security Considerations
+
+The project is intended as a learning and demonstration application.
+
+For production deployment:
+
+* Storage connection strings should be stored securely.
+* Secrets should not be committed to GitHub.
+* Authentication and authorisation should be implemented.
+* HTTPS should be used.
+* File upload restrictions should be strengthened.
+* Input validation should be expanded.
+* Production Azure Storage accounts should use appropriate access controls.
+* Docker images should be scanned for vulnerabilities.
+
+---
+
+# 39. Future Improvements
+
+Possible future improvements include:
+
+* User authentication
+* Role-based access control
+* Admin dashboard
+* Online ordering
+* Shopping cart functionality
+* Customer accounts
+* Payment integration
+* Azure-hosted production deployment
+* Azure Application Insights
+* Automated CI/CD using GitHub Actions
+* More advanced menu searching
+* Image support for menu items
+* Improved file security
+* Database auditing
+* Automated integration testing
+
+---
+
+# 40. Conclusion
+
+The CoffeeNChill project demonstrates how a traditional coffee shop process can be transformed into a cloud-based application using modern development and cloud technologies.
+
+The solution successfully demonstrates:
+
+* Azure Functions
+* Azure Table Storage
+* Azure File Share
+* Azurite
+* Docker
+* Docker Hub
+* REST APIs
+* Postman
+* Git
+* GitHub
+* Team collaboration
+
+Each group member contributed to a specific part of the system, and the final solution integrates the individual components into a single CoffeeNChill application.
+
+The project provides a foundation for further development into a complete cloud-based coffee shop management platform.
+
+---
+
+# 41. Team Contribution Summary
+
+| Member                    | Main Responsibility                                                                                 |
+| ------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Elroi Blessed Nhimura** | Repository setup, Menu Create/Read, MenuItem model, Postman Create/Read, documentation coordination |
+| **Neo Mokoena**                   | Menu filtering, updating, deleting and menu validation                                              |
+| **Lehlohonolo Moeletsi**                 | Azure File Share upload, list and download functionality                                            |
+| **Junior Ramabulana**                | Dockerfile, Docker containerisation, Docker Hub, final testing/video assembly                       |
+
+---
+
+# 42. Important Links
+
+| Resource              | Link                                                      |
+| --------------------- | ----------------------------------------------------------|
+| GitHub Repository     | https://github.com/ElroiBlessedNhimura/CloudPart1.git     |
+| Docker Hub            | https://hub.docker.com/r/mashudujuniorst10453352/coffeenchill-functions                                                              |
+| YouTube Demonstration | **[INSERT YOUTUBE LINK]**                                 |
+| Postman Collection    | `docs/Postman-Collection.json`                            |
+
+---
+
+# 43. Final Submission Checklist
+
+Before submitting the project, verify that the repository contains:
+
+* [ ] Complete source code
+* [ ] `README.md`
+* [ ] `MenuItem.cs`
+* [ ] Menu Functions
+* [ ] Menu Table Service
+* [ ] File Share functionality
+* [ ] `Dockerfile`
+* [ ] `local.settings.json` configured correctly
+* [ ] Postman collection
+* [ ] Postman test screenshots
+* [ ] Docker evidence
+* [ ] Docker Hub image
+* [ ] Git commit history
+* [ ] Evidence of each member's contribution
+* [ ] YouTube demonstration link
+* [ ] All required documentation
+*  No unnecessary sensitive credentials committed to GitHub
+
+---
+
+## CoffeeNChill
+
+**Cloud-based coffee shop management using Azure Functions, Azure Storage, Docker and Postman.**
+
+☕ **Build. Test. Containerise. Deploy.**
